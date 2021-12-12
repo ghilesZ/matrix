@@ -1,5 +1,9 @@
 type 'a t = 'a array array
 
+let width : 'a t -> int = Array.length
+
+let height m = Array.length m.(0)
+
 let iter f ?line (m : 'a t) =
   match line with
   | None -> Array.iter (Array.iter f) m
@@ -22,6 +26,8 @@ let exists p (m : 'a t) = Array.exists (Array.exists p) m
 let fold_left f acc (m : 'a t) = Array.fold_left (Array.fold_left f) acc m
 
 let map f (m : 'a t) = Array.map (Array.map f) m
+
+let mapij f (m : 'a t) = Array.mapi (fun i -> Array.mapi (fun j -> f (i, j))) m
 
 let copy m = Array.map Array.copy m
 

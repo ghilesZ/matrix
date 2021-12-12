@@ -1,1 +1,4 @@
-(library (public_name matrix)(name matrix))
+(library
+  (wrapped false)
+  (public_name matrix)
+  (name matrix))
