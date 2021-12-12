@@ -1,12 +1,13 @@
 type 'a t = 'a array array
 
 val width : 'a t -> int
-(** Return the number of columns of the given matrice (length of the outer
-    array) *)
+(** Return the number of columns of the given matrix (length of the outer array) *)
 
 val height : 'a t -> int
-(** Return the number of rows of the given matrice (length of the first inner
-    array. @raise Invalid_argument if the outer array is empty *)
+(** Return the number of rows of the given matrix (length of the first inner
+    array.
+
+    @raise Invalid_argument if the outer array is empty *)
 
 val iter : ('a -> unit) -> ?line:(unit -> unit) -> 'a t -> unit
 (** [iter f a] applies function [f] in turn to all the elements of [a]. It is
@@ -32,19 +33,28 @@ val mapij : (int * int -> 'a -> 'b) -> 'a t -> 'b t
     element as first argument, and the element itself as second argument. *)
 
 val for_all : ('a -> bool) -> 'a t -> bool
+(** [for_all f m] checks if all elements of the matrix [m] satisfy the predicate
+    [f]. That is, it returns (f a1) && (f a2) && ... && (f an). *)
 
 val exists : ('a -> bool) -> 'a t -> bool
+(** [exists f m] checks if (at least) one elements of the matrix [m] satisfy the
+    predicate [f] *)
 
 val fold_left : ('b -> 'a -> 'b) -> 'b -> 'a t -> 'b
 (** fold_left f acc a computes f (... (f (f init a.(0).(0)) a.(0).(1)) ...)
     a.(width n-1).(height n - 1), a *)
 
 val copy : 'a t -> 'a t
-(** deep copy *)
+(** [copy a] returns a (deep) copy of [a], that is, a fresh matrix containing
+    the same elements as [a]. *)
 
 val neighbors : 'a t -> int -> int -> 'a list
+(** [neighbors m i j] returns the list of all element in [m] whose coordinates
+    are within a Chebyshev distance of 1 from (i,j) *)
 
 val neighborsij : 'a t -> int -> int -> ('a * (int * int)) list
+(** Same as Matrix.neighbors, but also return the associated coordinate of each
+    item. *)
 
 val print :
      ?pad:bool
@@ -52,4 +62,7 @@ val print :
   -> Format.formatter
   -> 'a t
   -> unit
-(** default behaviour is to pad cells so that all take the same width. *)
+(** [print pp_v ppf m] prints items of the matrix [m], using [pp_v] to print
+    each item, and prints a newline after each row. Does nothing on empty
+    matrices. Default behaviour is to pad cells so that all take the same width,
+    which can be disabled by setting the optional argument [pad] to false *)
