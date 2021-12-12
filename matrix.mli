@@ -22,11 +22,8 @@ val iterij : (int * int -> 'a -> unit) -> ?line:(unit -> unit) -> 'a t -> unit
     element as first argument, and the element itself as second argument. *)
 
 val map : ('a -> 'b) -> 'a t -> 'b t
-(** map f a applies function f to all the elements of a, and builds an array
-    with the results returned by f:
-    [| \[| f a.(0).(0); f a.(0).(1); ...; (f a.(0).(height a - 1)) |\];
-       \[| f a.(1).(0); f a.(1).(1); ...; (f a.(1).(height a - 1)) |\];
-       \[| f a.(width a - 1).(0); f a.(width a - 1).(1); ...; (f a.(width a - 1).(height a - 1) |\] |] *)
+(** map f a applies function f to all the elements of a, and builds a matrix
+    with the results returned by f.*)
 
 val mapij : (int * int -> 'a -> 'b) -> 'a t -> 'b t
 (** Same as Matrix.map, but the function is applied to the coordinate of the
